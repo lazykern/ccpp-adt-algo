@@ -3,22 +3,64 @@
 
 typedef struct
 {
-    int *A;
+    int *data;
     int size;
     int length;
 } Array;
 
+Array new_array(int size)
+{
+    Array array;
+    array.data = (int *)malloc(sizeof(int) * size);
+    array.length = 0;
+    array.size = size;
+    return array;
+}
+
 void display(Array array)
 {
-    int i;
     printf("{");
-    for (i = 0; i < array.length; ++i)
+    for (int i = 0; i < array.length; ++i)
     {
-        printf("%d", array.A[i]);
+        printf("%d", array.data[i]);
         if (i < array.length - 1)
             printf(", ");
     }
     printf("}\n");
+}
+
+void display_info(Array array)
+{
+    printf("data: ");
+    display(array);
+    printf("length: %d\n", array.length);
+    printf("size: %d\n", array.size);
+}
+
+void resize(Array *array, int new_size)
+{
+    int *new_data = (int *)malloc(sizeof(int) * new_size);
+    if (array->length > new_size)
+        array->length = new_size;
+    for (int i = 0; i < array->length; ++i)
+        new_data[i] = array->data[i];
+    free(array->data);
+    array->data = new_data;
+    array->size = new_size;
+}
+
+size_t expand(Array *array, int by)
+{
+    void *p;
+    p = realloc(array->data, sizeof(int) * (array->size + by));
+    if (p == NULL)
+    {
+        printf("expand failed\n");
+        return array->size;
+    }
+    array->data = p;
+    array->size += by;
+    return array->size;
 }
 
 void append(Array *array, int x)
@@ -27,36 +69,33 @@ void append(Array *array, int x)
     {
         return;
     }
-    array->A[array->length++] = x;
+    array->data[array->length++] = x;
 }
 
 void insert(Array *array, int x, int index)
 {
-    int i;
-    for (i = array->length; i > index; --i)
+    for (int i = array->length; i > index; --i)
     {
-        array->A[i] = array->A[i - 1];
+        array->data[i] = array->data[i - 1];
     }
-    array->A[index] = x;
+    array->data[index] = x;
     ++array->length;
 }
 
 void delete (Array *array, int index)
 {
-    int i;
-    for (i = index; i < array->length - 1; ++i)
+    for (int i = index; i < array->length - 1; ++i)
     {
-        array->A[i] = array->A[i + 1];
+        array->data[i] = array->data[i + 1];
     }
     --array->length;
 }
 
 int search_l(Array array, int value)
 {
-    int i;
-    for (i = 0; i < array.length; ++i)
+    for (int i = 0; i < array.length; ++i)
     {
-        if (array.A[i] == value)
+        if (array.data[i] == value)
         {
             return i;
         }
@@ -71,7 +110,6 @@ int search_l(Array array, int value)
  */
 int search_bi(Array array, int value)
 {
-
     int l = 0;
     int h = array.length - 1;
     int m;
@@ -79,9 +117,9 @@ int search_bi(Array array, int value)
     while (l <= h)
     {
         m = (l + h) / 2;
-        if (value == array.A[m])
+        if (value == array.data[m])
             return m;
-        else if (value < array.A[m])
+        else if (value < array.data[m])
             h = m - 1;
         else
             l = m + 1;
@@ -89,49 +127,47 @@ int search_bi(Array array, int value)
     return -1;
 }
 
-int search_r_bi(int *A, int value, int l, int h)
+int search_r_bi(int *data, int value, int l, int h)
 {
     if (l > h)
         return -1;
     int m = (l + h) / 2;
-    if (value == A[m])
+    if (value == data[m])
         return m;
-    else if (value < A[m])
-        return search_r_bi(A, value, l, m - 1);
+    else if (value < data[m])
+        return search_r_bi(data, value, l, m - 1);
     else
-        return search_r_bi(A, value, m + 1, h);
+        return search_r_bi(data, value, m + 1, h);
 }
 
-int get(Array array, int index) { return array.A[index]; }
+int get(Array array, int index) { return array.data[index]; }
 
-void set(Array *array, int index, int value) { array->A[index] = value; }
+void set(Array *array, int index, int value) { array->data[index] = value; }
 
 int max(Array array)
 {
-    int max = array.A[0];
-    int i;
-    for (i = 1; i < array.length; ++i)
-        if (max < array.A[i])
-            max = array.A[i];
+    int max = array.data[0];
+    for (int i = 1; i < array.length; ++i)
+        if (max < array.data[i])
+            max = array.data[i];
 
     return max;
 }
 
 int min(Array array)
 {
-    int min = array.A[0];
-    int i;
-    for (i = 1; i < array.length; ++i)
-        if (min > array.A[i])
-            min = array.A[i];
+    int min = array.data[0];
+    for (int i = 1; i < array.length; ++i)
+        if (min > array.data[i])
+            min = array.data[i];
     return min;
 }
 
 int sum(Array array)
 {
-    int i, total = 0;
-    for (i = 0; i < array.length; i++)
-        total += array.A[i];
+    int total = 0;
+    for (int i = 0; i < array.length; i++)
+        total += array.data[i];
     return total;
 }
 
@@ -140,10 +176,11 @@ float avg(Array array)
     return (float)sum(array) / array.length;
 }
 
-void swap(int * a, int * b) {
+void swap(int *a, int *b)
+{
     int temp = *a;
     *a = *b;
-    *b = temp; 
+    *b = temp;
 }
 
 void reverse(Array *array)
@@ -152,45 +189,111 @@ void reverse(Array *array)
     int temp;
     for (l; l < r; ++l, --r)
     {
-        temp = array->A[r];
-        array->A[r] = array->A[l];
-        array->A[l] = temp;
+        temp = array->data[r];
+        array->data[r] = array->data[l];
+        array->data[l] = temp;
     }
 }
 
 void left_shift(Array *array)
 {
-    int i, temp;
-    temp = array->A[0];
-    for (i=0; i < array->length-1; ++i) {
-        array->A[i] = array->A[i+1];
+    int temp = array->data[0];
+    for (int i = 0; i < array->length - 1; ++i)
+    {
+        array->data[i] = array->data[i + 1];
     }
-    array->A[array->length-1] = temp;
+    array->data[array->length - 1] = temp;
 }
 
 void right_shift(Array *array)
 {
-    int i, temp;
-    temp = array->A[array->length-1];
-    for (i = array->length-1; i > 0; --i) {
-        array->A[i] = array->A[i-1];
+    int temp = array->data[array->length - 1];
+    for (int i = array->length - 1; i > 0; --i)
+    {
+        array->data[i] = array->data[i - 1];
     }
-    array->A[0]= temp;
+    array->data[0] = temp;
 }
 
-
-
-int main()
+int is_sorted(Array array)
 {
-    Array array;
-    int i;
-    scanf("%d", &array.size);
-    array.A = (int *)malloc(array.size * sizeof(int) + 1);
-    array.length = 0;
-    for (i = 0; i < array.size; ++i)
+    for (int i = 0; i < array.length - 1; ++i)
+        if (array.data[i] > array.data[i + 1])
+            return 0;
+    return 1;
+}
+
+int is_sorted_desc(Array array)
+{
+    for (int i = 0; i < array.length - 1; ++i)
+        if (array.data[i] < array.data[i + 1])
+            return 0;
+    return 1;
+}
+
+Array concat(Array src1, Array src2)
+{
+    Array result = new_array(src1.size + src2.size);
+
+    int src_i;
+    int res_i = 0;
+
+    for (src_i = 0; src_i < src1.length; ++src_i)
+        result.data[res_i++] = src1.data[src_i];
+
+    for (src_i = 0; src_i < src2.length; ++src_i)
+        result.data[res_i++] = src2.data[src_i];
+
+    result.length = res_i;
+    return result;
+}
+
+Array set_union(Array src1, Array src2)
+{
+    Array result = new_array(src1.length + src2.length);
+
+    for (int i = 0; i < src1.length; ++i)
+        append(&result, src1.data[i]);
+
+    for (int i = 0; i < src2.length; ++i)
     {
-        scanf("%d", &array.A[i]);
-        ++array.length;
+        if (search_l(src1, src2.data[i]) == -1)
+            append(&result, src2.data[i]);
     }
-    display(array);    
+
+    resize(&result, result.length);
+    return result;
+}
+
+Array intersection(Array src1, Array src2)
+{
+    Array result = new_array(src1.length + src2.length);
+
+    for (int i = 0; i < src1.length; ++i) {
+        if (search_l(src2, src1.data[i]) != -1) {
+            append(&result, src1.data[i]);
+        }
+    }
+
+    resize(&result, result.length);
+    return result;
+}
+
+Array difference(Array src1, Array src2)
+{
+    Array result = new_array(src1.length + src2.length);
+
+    for (int i = 0; i < src1.length; ++i) {
+        if (search_l(src2, src1.data[i]) == -1) {
+            append(&result, src1.data[i]);
+        }
+    }
+    
+    for (int i = 0; i < src2.length; ++i) {
+        if (search_l(src1, src2.data[i]) == -1) {
+            append(&result, src2.data[i]);
+        }
+    }
+    resize(&result, result.length);
+    return result;
 }
