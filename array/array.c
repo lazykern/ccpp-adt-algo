@@ -17,6 +17,10 @@ Array new_array(int size)
     return array;
 }
 
+int get(Array array, int index) { return array.data[index]; }
+
+void set(Array *array, int index, int value) { array->data[index] = value; }
+
 void display(Array array)
 {
     printf("{");
@@ -63,32 +67,41 @@ size_t expand(Array *array, int by)
     return array->size;
 }
 
-void append(Array *array, int x)
+int append(Array *array, int x)
 {
     if (array->length == array->size)
     {
-        return;
+        return 0;
     }
     array->data[array->length++] = x;
+    return 1;
 }
 
-void insert(Array *array, int x, int index)
+int insert(Array *array, int x, int index)
 {
+    if (index < 0 || index > array->length)
+        return 0;
+
     for (int i = array->length; i > index; --i)
     {
         array->data[i] = array->data[i - 1];
     }
     array->data[index] = x;
     ++array->length;
+    return 1;
 }
 
-void delete (Array *array, int index)
+int delete (Array *array, int index)
 {
+    if (index < 0 || index > array->length)
+        return 0;
+
     for (int i = index; i < array->length - 1; ++i)
     {
         array->data[i] = array->data[i + 1];
     }
     --array->length;
+    return 1;
 }
 
 int search(Array array, int value)
@@ -139,10 +152,6 @@ int search_r_bi(int *data, int value, int l, int h)
     else
         return search_r_bi(data, value, m + 1, h);
 }
-
-int get(Array array, int index) { return array.data[index]; }
-
-void set(Array *array, int index, int value) { array->data[index] = value; }
 
 int max(Array array)
 {
