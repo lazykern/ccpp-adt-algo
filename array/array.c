@@ -91,7 +91,7 @@ void delete (Array *array, int index)
     --array->length;
 }
 
-int search_l(Array array, int value)
+int search(Array array, int value)
 {
     for (int i = 0; i < array.length; ++i)
     {
