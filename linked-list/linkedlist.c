@@ -283,18 +283,47 @@ int remove_item(LinkedList *list, int data)
     return 1;
 }
 
+void bubble_sort(LinkedList *list)
+{
+	int swap, i;
+	struct Node *curr_node;
+	struct Node *end_node = NULL;
+    
+    int temp_data;
+
+	if (list->head == NULL)
+		return;
+
+	do
+	{
+		swap = 0;
+		curr_node = list->head;
+
+		while (curr_node->next != end_node)
+		{
+			if (curr_node->data > curr_node->next->data)
+			{
+                temp_data = curr_node->data;
+                curr_node->data = curr_node->next->data;
+                curr_node->next->data = temp_data;
+				swap = 1;
+			}
+			curr_node = curr_node->next;
+		}
+		end_node = curr_node;
+	}
+	while (swap);
+}
+
+
 int main()
 {
     LinkedList *list = new_linkedlist();
-    append(list, 1);
-    append(list, 2);
     append(list, 3);
+    append(list, 11);
     append(list, 10);
-    set(list, 3, 4);
-
-    display(list);
-    printf("%d\n", sum(list));
-    printf("%d\n", search_bi(list, 4));
-    printf("%d\n", get(list, 3));
+    append(list, 9);
+    
+    bubble_sort(list);
     display_info(list);
 }
