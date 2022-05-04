@@ -63,12 +63,11 @@ int get(LinkedList *list, int index) { return get_node(list, index)->data; }
 
 void set(LinkedList *list, int index, int data)
 {
-    if (index < 0 || index > list->size-1)
+    if (index < 0 || index > list->size - 1)
         return;
 
     get_node(list, index)->data = data;
 }
-
 
 void append(LinkedList *list, int data)
 {
@@ -142,6 +141,25 @@ void display(LinkedList *list)
         printf("%d", curr_node->data);
         curr_node = curr_node->next;
         if (curr_node != NULL)
+        {
+            printf("-> ");
+        }
+    }
+    printf("\n");
+}
+
+void display_from_node(Node *node)
+{
+    if (node == NULL)
+    {
+        printf("\n");
+        return;
+    }
+    while (node != NULL)
+    {
+        printf("%d", node->data);
+        node = node->next;
+        if (node != NULL)
         {
             printf("-> ");
         }
@@ -255,8 +273,9 @@ int remove_item(LinkedList *list, int data)
     int index;
     Node *prev_node = NULL;
     Node *curr_node = list->head;
-    
-    if (curr_node->data == data) {
+
+    if (curr_node->data == data)
+    {
         list->head = curr_node->next;
         free(curr_node);
         --list->size;
@@ -285,45 +304,46 @@ int remove_item(LinkedList *list, int data)
 
 void bubble_sort(LinkedList *list)
 {
-	int swap, i;
-	struct Node *curr_node;
-	struct Node *end_node = NULL;
-    
+    struct Node *curr_node;
+    struct Node *end_node = NULL;
     int temp_data;
+    int swap;
 
-	if (list->head == NULL)
-		return;
+    if (list->head == NULL)
+        return;
 
-	do
-	{
-		swap = 0;
-		curr_node = list->head;
+    do
+    {
+        swap = 0;
+        curr_node = list->head;
 
-		while (curr_node->next != end_node)
-		{
-			if (curr_node->data > curr_node->next->data)
-			{
+        while (curr_node->next != end_node)
+        {
+            if (curr_node->data > curr_node->next->data)
+            {
                 temp_data = curr_node->data;
                 curr_node->data = curr_node->next->data;
                 curr_node->next->data = temp_data;
-				swap = 1;
-			}
-			curr_node = curr_node->next;
-		}
-		end_node = curr_node;
-	}
-	while (swap);
+                swap = 1;
+            }
+            curr_node = curr_node->next;
+        }
+        end_node = curr_node;
+    } while (swap);
 }
 
-
-int main()
+void reverse(LinkedList *list)
 {
-    LinkedList *list = new_linkedlist();
-    append(list, 3);
-    append(list, 11);
-    append(list, 10);
-    append(list, 9);
-    
-    bubble_sort(list);
-    display_info(list);
+    Node *prev_node = NULL;
+    Node *curr_node = list->head;
+    Node *next_node = NULL;
+
+    while (curr_node != NULL)
+    {
+        next_node = curr_node->next;
+        curr_node->next = prev_node;
+        prev_node = curr_node;
+        curr_node = next_node;
+    }
+    list->head = prev_node;
 }
