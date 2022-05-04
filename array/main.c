@@ -4,8 +4,8 @@
 int main()
 {
     Array array = new_array(10);
-    display_info(array);
-    resize(&array, 20);
-    display_info(array);
+    for (int i = 0; i < 100; ++i)
+        append(&array, i);
+    printf("%d", search_bi(array, 0));
     return 0;
 }
