@@ -205,34 +205,6 @@ Node *search_node(LinkedList *list, int data)
     return NULL;
 }
 
-/**
- * @param list: LinkedList pointer
- * @param data: value to search for
- * @return int
- */
-int search_bi(LinkedList *list, int data)
-{
-    int l = 0;
-    int h = list->size - 1;
-    int m;
-    int temp_data;
-
-    while (l <= h)
-    {
-        m = (l + h) / 2;
-        temp_data = get(list, m);
-        if (data == temp_data)
-        {
-            return m;
-        }
-        else if (data < temp_data)
-            h = m - 1;
-        else
-            l = m + 1;
-    }
-    return -1;
-}
-
 int pop(LinkedList *list, int index)
 {
     int data;
