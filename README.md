@@ -1,4 +1,4 @@
-# C and C++ ADT and Problem Solving.
+# C and C++ ADT and Algorithms
 
 ## Introduction
 
@@ -9,7 +9,6 @@ This repository contains a collection of abstract data structure that I learned 
 - [Array](./array/)
 - [Linked List](./linked-list/)
 - [Stack](./stack/)
-- Queue
-<!-- - [Queue](./queue/) -->
+- Queue <!-- - [Queue](./queue/) -->
 - [Tree](./tree/)
   - [Binary Tree](./tree/binary-tree/)
