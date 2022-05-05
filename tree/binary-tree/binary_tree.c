@@ -171,10 +171,9 @@ int is_empty(BTNodeStack *stack)
     return 0;
 }
 
-
 /******************************************************************************/
 
-void preorder_display(BinaryTree *tree)
+void preorder_display_iter(BinaryTree *tree)
 {
 
     BTNodeStack *stack = new_btnode_stack();
@@ -186,22 +185,37 @@ void preorder_display(BinaryTree *tree)
         {
             printf("%d ", curr_node->data);
 
-            if (curr_node->right != NULL){
+            if (curr_node->right != NULL)
+            {
                 push(stack, curr_node->right);
             }
             curr_node = curr_node->left;
         }
-        
-        if (!is_empty(stack)) {
+
+        if (!is_empty(stack))
+        {
             curr_node = pop(stack);
         }
     }
     printf("\n");
-    
 }
 
+void preorder_display_recur_nodeptr(BTNode *ptr)
+{
+    if (ptr != NULL)
+    {
+        printf("%d ", ptr->data);
+        preorder_display_recur_nodeptr(ptr->left);
+        preorder_display_recur_nodeptr(ptr->right);
+    }
+}
 
-
+void preorder_display_recur(BinaryTree *tree)
+{
+    BTNode *ptr = tree->root;
+    preorder_display_recur_nodeptr(ptr);
+    printf("\n");
+}
 
 int main()
 {
@@ -211,4 +225,5 @@ int main()
     insert_right_child(tree, tree->root, 30);
     insert_left_child(tree, tree->root->left, 40);
     insert_right_child(tree, tree->root->left, 50);
+    preorder_display_recur(tree);
 }
