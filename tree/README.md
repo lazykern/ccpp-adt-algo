@@ -1,5 +1,16 @@
 # Tree
 
+```text
+       x
+     /   \
+    /     \
+   x       x
+  / \     / \
+ x   x   x   x
+/ \ / \ / 
+x x x x x
+```
+
 ## Terminology
 
 | Root                                        | The first node. There must be only one root node.            |
