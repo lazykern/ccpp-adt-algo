@@ -1,4 +1,4 @@
-# Tree
+# :evergreen_tree: Tree 
 
 ```text
        x
@@ -25,3 +25,7 @@ x x x x x
 | Level                                       | Starts form 0 at root node and increases by 1 for each node. |
 | Depth                                       | Root -> Node.                                                |
 | Height                                      | Leaf -> Node.                                                |
+
+>**Depth vs Height** 
+>Simply speaking, the depth of a node is the number of edges you have to traverse starting from the root to reach that node. Height of a node is the number of edges you have to traverse downwards starting from that node to reach the farthest node. The height of a tree is the height of its root.
+
