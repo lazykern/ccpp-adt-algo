@@ -102,19 +102,19 @@ Node can only have 2 or no child.
 ### Pre-Order
 
    1. Visit the root.
-   2. Traverse the left subtree, i.e., call Preorder(left-subtree)
-   3. Traverse the right subtree, i.e., call Preorder(right-subtree)
+   2. Traverse the left subtree.
+   3. Traverse the right subtree.
 
 ### In-Order
 
-   1. Traverse the left subtree, i.e., call Inorder(left-subtree)
+   1. Traverse the left subtree.
    2. Visit the root.
-   3. Traverse the right subtree, i.e., call Inorder(right-subtree)
+   3. Traverse the right subtree.
 
 ### Post-Order
 
-   1. Traverse the left subtree, i.e., call Postorder(left-subtree)
-   2. Traverse the right subtree, i.e., call Postorder(right-subtree)
+   1. Traverse the left subtree.
+   2. Traverse the right subtree.
    3. Visit the root.
 
 ### Level Order
