@@ -84,7 +84,7 @@ Node can only have 2 or no child.
 
 ### Balanced Tree
 
-- Difference between the left and the right subtree for any node is not more than one.
+- Height difference between the left and the right subtree for any node is not more than one.
 - The left and right subtree is balanced.
 
 ```text
